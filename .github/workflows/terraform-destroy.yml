@@ -1,0 +1,24 @@
+name: Terraform Destroy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  destroy:
+    name: Destroy Terraform
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: '1.5.7'
+
+      - name: Terraform Init
+        run: terraform init -input=false
+
+      - name: Terraform Destroy (auto-approve)
+        run: terraform destroy -auto-approve -var-file=terraform.tfvars
